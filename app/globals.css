@@ -12,3 +12,17 @@
   }
 }
 
+body{
+  background-color: black;
+}
+
+.foto {
+  width: 200px; /* Tamanho inicial da foto */
+  height: 150px;
+  transition: transform 0.3s; /* Adiciona uma transição suave */
+}
+
+.foto:hover {
+  transform: scale(1.2); /* Aumenta o tamanho da foto em 20% no hover */
+}
+
