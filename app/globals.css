@@ -65,3 +65,17 @@ main{
   width: 600px;
   text-align: right;
 }
+
+.titulo{
+  color: #00FFF1;
+  display: table;
+  margin: auto;
+  font-size: 60px;
+}
+
+.texto_cad{
+  color: black;
+  border: 5px gray solid;
+  width: 600px;
+  height: 40px;
+}
