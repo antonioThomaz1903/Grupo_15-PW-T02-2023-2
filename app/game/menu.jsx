@@ -28,13 +28,13 @@ const Sidebar = () => {
               <li><a href="#">Marinhos</a></li>
             </ul>
           </li>
-          <li><a href="#">Objetos</a></li>
-          <li><a href="#">Famosos</a></li>
-          <li><a href="#">Filmes</a></li>
-          <li><a href="#">Comida</a></li>
-          <li><a href="#">Música</a></li>
-          <li><a href="#">Televisão</a></li>
-          <li><a href="#">História</a></li>
+          <li><a className="textoBranco" href="#">Objetos</a></li>
+          <li><a className="textoBranco" href="#">Famosos</a></li>
+          <li><a className="textoBranco" href="#">Filmes</a></li>
+          <li><a className="textoBranco" href="#">Comida</a></li>
+          <li><a className="textoBranco" href="#">Música</a></li>
+          <li><a className="textoBranco" href="#">Televisão</a></li>
+          <li><a className="textoBranco" href="#">História</a></li>
         </ul>
       </nav>
 
