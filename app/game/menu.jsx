@@ -1,52 +1,60 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import Sidebar from './Sidebar';
 
-const Sidebar = () => {
-  const [isClosed, setIsClosed] = useState(false);
+const Menu = ({ children }) => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsClosed(!isClosed);
+    setSidebarOpen(!isSidebarOpen);
   };
 
   return (
-    <div id="wrapper" className={isClosed ? 'toggled' : ''}>
-      <div className={`overlay ${isClosed ? 'closed' : ''}`} onClick={toggleSidebar}></div>
-
-      <nav className={`navbar navbar-inverse fixed-top ${isClosed ? 'toggled' : ''}`} id="sidebar-wrapper" role="navigation">
-        <ul className="nav sidebar-nav">
-          <div className="sidebar-header">
-            <div className="sidebar-brand">
-              <a href="#">Brand</a>
-            </div>
-          </div>
-          <li className="dropdown">
-            <a href="#" className="dropdown-toggle" data-toggle="dropdown">Animais <span className="caret"></span></a>
-            <ul className="dropdown-menu animated fadeInLeft" role="menu">
-              <div className="dropdown-header">Animais</div>
-              <li><a href="#">Cachorros</a></li>
-              <li><a href="#">Gatos</a></li>
-              <li><a href="#">Répteis</a></li>
-              <li><a href="#">Marinhos</a></li>
-            </ul>
-          </li>
-          <li><a className="textoBranco" href="#">Objetos</a></li>
-          <li><a className="textoBranco" href="#">Famosos</a></li>
-          <li><a className="textoBranco" href="#">Filmes</a></li>
-          <li><a className="textoBranco" href="#">Comida</a></li>
-          <li><a className="textoBranco" href="#">Música</a></li>
-          <li><a className="textoBranco" href="#">Televisão</a></li>
-          <li><a className="textoBranco" href="#">História</a></li>
-        </ul>
-      </nav>
-
-      <div id="page-content-wrapper">
-        <button type="button" className={`hamburger animated fadeInLeft ${isClosed ? 'is-open' : 'is-closed'}`} data-toggle="offcanvas" onClick={toggleSidebar}>
-          <span className="hamb-top"></span>
-          <span className="hamb-middle"></span>
-          <span className="hamb-bottom"></span>
-        </button>
-      </div>
+    <div className="flex h-screen text-white">
+      <button
+        onClick={toggleSidebar}
+        className="fixed z-50 p-4 text-white cursor-pointer"
+      >
+        {isSidebarOpen ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        )}
+      </button>
+      <Sidebar isOpen={isSidebarOpen} closeSidebar={toggleSidebar} />
+      <div
+        className={`fixed h-full top-0 left-0 bg-black opacity-25 z-40 transition-opacity ${
+          isSidebarOpen ? 'block' : 'hidden'
+        }`}
+        onClick={toggleSidebar}
+      ></div>
     </div>
   );
 };
 
-export default Sidebar;
+export default Menu;
