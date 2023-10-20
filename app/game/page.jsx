@@ -17,8 +17,8 @@ export default function Page() {
   return (
     <div
       style={{
-        width: "100vw",
-        height: "100vh",
+        width: "99vw",
+        height: "99vh",
         flexDirection: "column",
       }}
     >
@@ -29,7 +29,7 @@ export default function Page() {
         {isSidebarOpen ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-8 w-8"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -61,7 +61,7 @@ export default function Page() {
 
       <button
         onClick={()=>{router.push("/ranking")}}
-        className="fixed z-50 right-6 p-4 w-10 text-white cursor-pointer"
+        className="fixed z-50 right-1 p-4 text-white cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@ export default function Page() {
 
       <div
         style={{
-          width: "100%",
+          width: "99%",
           height: "10%",
           display: "flex",
           justifyContent: "center",
@@ -98,7 +98,7 @@ export default function Page() {
       </div>
       <div
         style={{
-          width: "100%",
+          width: "99%",
           height: "80%",
           display: "flex",
           flexDirection: "row",
@@ -124,16 +124,6 @@ export default function Page() {
         >
           <Foto lado="E" />
         </div>
-      </div>
-      <div
-        style={{
-          height: "10%",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
       </div>
 
       <Sidebar isOpen={isSidebarOpen} closeSidebar={toggleSidebar} />
