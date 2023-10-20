@@ -1,62 +1,77 @@
 "use client";
 import Sidebar from "../game/Sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import getFromAPI from "../game/getFromAPI";
 import { useRouter } from "next/navigation";
 
 const images = [
   {
     id: 1,
     name: "Imagem 1",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 2,
     name: "Imagem 2",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 3,
     name: "Imagem 3",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 4,
     name: "Imagem 4",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 5,
     name: "Imagem 5",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 6,
     name: "Imagem 6",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 7,
     name: "Imagem 7",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 8,
     name: "Imagem 8",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 9,
     name: "Imagem 9",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
   {
     id: 10,
     name: "Imagem 10",
-    src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn0X0cDY1hCZEH0uJeSEhby3QvgnwxcmTRKw&usqp=CAU",
   },
 ];
 
 const Top10 = () => {
+  const [imageURLs, setImageURLs] = useState([]);
+  const fetchImageURLs = async () => {
+    try {
+      const endpoints = ["search","search","search","search","search","search","search","search","search", "search"]; // Substitua com os endpoints desejados
+      const urls = [];
+      let a = 0;
+
+      for (const endpoint of endpoints) {
+        const url = await getFromAPI(endpoint);
+
+        console.log(a++);
+        if (url) {
+          urls.push(url);
+        }
+      }
+
+      setImageURLs(urls);
+    } catch (error) {
+      console.error("Erro ao buscar URLs das imagens:", error);
+    }
+  };
+  useEffect(() => {
+    fetchImageURLs();
+  }, []);
   const top3Images = images.slice(0, 3);
   const otherImages = images.slice(3);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -107,21 +122,21 @@ const Top10 = () => {
       <h1 className="text-white text-center m-8">Top 10</h1>
       <div className="w-full flex flex-column items-center justify-center text-white">
         <div className="flex flex-row items-center">
-          <div key={images[1].id} className="mb-16 mr-32 text-center">
+          <div key={images[1].id} className="mb-16 mr-8 lg:mr-32 text-center flex flex-column items-center justify-center">
             <h2>2° lugar</h2>
-            <img src={images[1].src} alt={images[1].name} />
+            <img className="w-20 h-20 xl:w-80 xl:h-80 lg:w-60 lg:h-60 md:w-40 md:h-40" src={imageURLs[1]} alt={images[1].name} />
             <p>Ciclano</p>
           </div>
 
-          <div key={images[0].id} className="mb-32 mr-32 text-center">
+          <div key={images[0].id} className="mb-32 mr-8 lg:mr-32 text-center flex flex-column items-center justify-center">
             <h2>1° lugar</h2>
-            <img src={images[0].src} alt={images[0].name} />
+            <img className="w-20 h-20 xl:w-80 xl:h-80 lg:w-60 lg:h-60 md:w-40 md:h-40" src={imageURLs[0]} alt={images[0].name} />
             <p>Fulano</p>
           </div>
 
-          <div key={images[2].id} className="mb-0 text-center">
+          <div key={images[2].id} className="mb-0 text-center flex flex-column items-center justify-center">
             <h2>3° lugar</h2>
-            <img src={images[2].src} alt={images[2].name} />
+            <img className="w-20 h-20 xl:w-80 xl:h-80 lg:w-60 lg:h-60 md:w-40 md:h-40" src={imageURLs[2]} alt={images[2].name} />
             <p>Beltrano</p>
           </div>
         </div>
@@ -132,8 +147,8 @@ const Top10 = () => {
             <li className="flex flex-row items-center" key={image.id}>
               <h2>{image.id}°</h2>
               <img
-                className="w-28 h-28 m-4"
-                src={image.src}
+                className="w-14 h-14 m-4 sm:w-28 sm:h-28"
+                src={imageURLs[image.id-1]}
                 alt={image.name}
               ></img>
               <p>{image.name}</p>
