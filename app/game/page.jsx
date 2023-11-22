@@ -386,7 +386,9 @@ export default function Page() {
               border: "10px solid #FC6B04",
             }}
             onClick={() => {
-              incrementCliquesByUrl(url2);
+              console.log(url2);
+              addImagem(url2.toString(), categoriaEscolhida);
+              incrementCliquesByUrl(url1);
             }}
           />
         </div>

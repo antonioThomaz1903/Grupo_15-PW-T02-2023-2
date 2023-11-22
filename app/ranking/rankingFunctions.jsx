@@ -15,20 +15,29 @@ import {
  * @param {*} url url da imagem.
  * @param {*} categoria categoria da imagem.
  */
-async function addImagem(url, categoria){
-    
-    await addDoc(collection(db, "imagem"), {
-        url: url,
-        cliques: 0,
-        categoria: categoria
-    })
-    .then(() => {
-        console.log("Imagem adicionada no banco");
-    })
-    .catch((error) => {
-        console.log("ERRO AO ADICIONAR IMAGEM: " + error);
-    });
+async function addImagem(url, categoria) {
+    const q = query(collection(db, "imagem"), where("url", "==", url), limit(1));
+
+    try {
+        const imagemSnap = await getDocs(q);
+
+        if (imagemSnap.empty) {
+            // A imagem não existe, então podemos adicioná-la
+            await addDoc(collection(db, "imagem"), {
+                url: url,
+                cliques: 1,
+                categoria: categoria
+            });
+            console.log("Imagem adicionada no banco");
+        } else {
+            // A imagem já existe, não fazemos nada
+            console.log("Imagem já existe no banco. Nenhuma ação realizada.");
+        }
+    } catch (error) {
+        console.log("ERRO AO VERIFICAR/ADICIONAR IMAGEM: " + error);
+    }
 }
+
 
 /**
  * Le todas as imagens do banco de dados.
@@ -88,20 +97,24 @@ async function getImagensByClickCount(categoria){
  */
 async function incrementCliquesByUrl(url) {
     const q = query(collection(db, "imagem"), where("url", "==", url), limit(1));
-    await getDocs(q)
-    .then((imagemSnap) => {
-        imagemSnap.forEach((doc) => {
-            const qtd = doc.data().cliques + 1;
-            updateDoc(doc, {
-            url: doc.data().url,
-            cliques: qtd,
-            categoria: doc.data().categoria
+
+    try {
+        const imagemSnap = await getDocs(q);
+
+        if (!imagemSnap.empty) {
+            const doc = imagemSnap.docs[0];
+            const qtd = (doc.data().cliques || 0) + 1; // Certifique-se de lidar com a situação em que cliques não existe
+            await updateDoc(doc.ref, {
+                cliques: qtd,
             });
-        });
-    })
-    .catch((error) => {
+            console.log("Incremento realizado com sucesso.");
+        } else {
+            console.log("Documento não encontrado para a URL fornecida.");
+        }
+    } catch (error) {
         console.log("ERRO AO INCREMENTAR: " + error);
-    });
+    }
 }
+
 
 export { addImagem, getImagens, getImagensByClickCount, incrementCliquesByUrl};
