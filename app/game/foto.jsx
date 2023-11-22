@@ -24,6 +24,7 @@ const Foto = ({ lado }) => {
       src={imageUrl1}
       width={0}
       height={0}
+      alt="imagem aletatória"
       sizes='100vw'
       className="foto"
       style={{
