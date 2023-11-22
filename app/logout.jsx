@@ -1,10 +1,8 @@
 import { auth } from '../firebaseConnection'
 import { signOut } from 'firebase/auth';
-import { useRouter } from 'next/router';
 
 export function logout(){
     const user = auth.currentUser;
-    const router = useRouter();
 
     if(user){
         signOut(auth)
@@ -19,8 +17,4 @@ export function logout(){
         console.log("Usuário já está deslogado.");
     }
     
-    return (
-        <>{()=>{router.push("/")}}</>
-    )
-
 }
