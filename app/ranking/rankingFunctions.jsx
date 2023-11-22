@@ -116,5 +116,27 @@ async function incrementCliquesByUrl(url) {
     }
 }
 
+async function getImagemByUrl(url){
+    const q = query(collection(db, "imagem"), where("url", "==", url), limit(1));
 
-export { addImagem, getImagens, getImagensByClickCount, incrementCliquesByUrl};
+    try {
+        const imagemSnap = await getDocs(q);
+
+        if (!imagemSnap.empty) {
+            const doc = imagemSnap.docs[0]; 
+            return {
+                id: doc.data().id,
+                url: doc.data().url,
+                categoria: doc.data().categoria,
+                cliques: doc.data().cliques
+            };
+        } else {
+            console.log("Documento não encontrado para a URL fornecida.");
+        }
+    } catch (error) {
+        console.log("ERRO AO ENCONTRAR: " + error);
+    }
+    return null;
+}
+
+export { addImagem, getImagens, getImagensByClickCount, incrementCliquesByUrl, getImagemByUrl};
