@@ -23,7 +23,7 @@ export default function Page() {
     setUser(auth.currentUser);
   }, []);
 
-
+  
   const [exibir, setExibir] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [clicou, setClicou] = useState(false);

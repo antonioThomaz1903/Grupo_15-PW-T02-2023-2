@@ -10,12 +10,17 @@ export function logout(){
         signOut(auth)
         .then(() => {
             console.log("Logout realizado com sucesso");
-            router.push("/");
         })
         .catch((error) => {
             console.log("Erro ao realizar logout: " + error);
         })
     }
+    else{
+        console.log("Usuário já está deslogado.");
+    }
+    
+    return (
+        <>{()=>{router.push("/")}}</>
+    )
 
-    console.log("Usuário já está deslogado.");
 }
