@@ -86,7 +86,7 @@ async function getImagensByClickCount(categoria){
  * @param {*} url url da imagem.
  */
 async function incrementCliquesByUrl(url) {
-    const q = query(collection(DB, "imagem"), where("url", "==", url), limit(1));
+    const q = query(collection(db, "imagem"), where("url", "==", url), limit(1));
     await getDocs(q)
     .then((imagemSnap) => {
         imagemSnap.forEach((doc) => {

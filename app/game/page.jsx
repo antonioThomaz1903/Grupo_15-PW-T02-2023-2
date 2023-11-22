@@ -2,10 +2,17 @@
 
 import Foto from "./foto";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import museuIds from "./museuIds";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { parseCookies, setCookie } from "nookies";
+import {
+  addImagem,
+  getImagens,
+  getImagensByClickCount,
+  incrementCliquesByUrl,
+} from "../ranking/rankingFunctions";
 
 export default function Page() {
   const [exibir, setExibir] = useState(false);
@@ -46,7 +53,7 @@ export default function Page() {
     window.location.reload();
   };
 
-  useState(async () => {
+  useEffect(() => {
     const cookies = parseCookies();
     const categoriaInicial = cookies.categoriaEscolhida; // Obtém a categoria do cookie
     if (categoriaInicial) {
@@ -54,164 +61,183 @@ export default function Page() {
       console.log(categoriaEscolhida);
     }
 
-    //////////////////////////////////
-    if (categoriaInicial == "cachorro") {
-      settitulo("Cachorros");
-      axios
-        .get("https://dog.ceo/api/breeds/image/random")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl1(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    const fetchData = async () => {
+      //////////////////////////////////
+      if (categoriaInicial == "cachorro") {
+        settitulo("Cachorros");
 
-      axios
-        .get("https://dog.ceo/api/breeds/image/random")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl2(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+        axios
+          .get("https://dog.ceo/api/breeds/image/random")
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl1(response.data.message);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-    //////////////////////////////////
-    if (categoriaInicial == "gato") {
-      settitulo("Gatos");
-      try{
-      const response = await fetch("https://api.thecatapi.com/v1/images/search");
-      if (!response.ok) {
-        throw new Error("Erro na requisição");
+        axios
+          .get("https://dog.ceo/api/breeds/image/random")
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl2(response.data.message);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-  
-      const data = await response.json();
-      if (data.length > 0 && data[0].url) {
-        setUrl1(data[0].url);
-      } else {
-        throw new Error("Nenhuma URL encontrada na resposta");
+
+      //////////////////////////////////
+      if (categoriaInicial == "gato") {
+        settitulo("Gatos");
+        try {
+          const response = await fetch(
+            "https://api.thecatapi.com/v1/images/search"
+          );
+          if (!response.ok) {
+            throw new Error("Erro na requisição");
+          }
+
+          const data = await response.json();
+          if (data.length > 0 && data[0].url) {
+            setUrl1(data[0].url);
+          } else {
+            throw new Error("Nenhuma URL encontrada na resposta");
+          }
+        } catch (error) {
+          console.error("Erro na requisição:", error);
+          return null;
+        }
+        try {
+          const response = await fetch(
+            "https://api.thecatapi.com/v1/images/search"
+          );
+          if (!response.ok) {
+            throw new Error("Erro na requisição");
+          }
+
+          const data = await response.json();
+          if (data.length > 0 && data[0].url) {
+            setUrl2(data[0].url);
+          } else {
+            throw new Error("Nenhuma URL encontrada na resposta");
+          }
+        } catch (error) {
+          console.error("Erro na requisição:", error);
+          return null;
+        }
       }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-      return null;
-    }
-    try{
-      const response = await fetch("https://api.thecatapi.com/v1/images/search");
-      if (!response.ok) {
-        throw new Error("Erro na requisição");
+
+      //////////////////////////////////
+      if (categoriaInicial == "aleatorio") {
+        settitulo("Aleatório");
+        axios
+          .get("https://dog.ceo/api/breeds/image/random")
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl1(response.data.message);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        axios
+          .get("https://dog.ceo/api/breeds/image/random")
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl2(response.data.message);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-  
-      const data = await response.json();
-      if (data.length > 0 && data[0].url) {
-        setUrl2(data[0].url);
-      } else {
-        throw new Error("Nenhuma URL encontrada na resposta");
+
+      //////////////////////////////////
+      if (categoriaInicial == "raposa") {
+        settitulo("Raposas");
+
+        axios
+          .get("https://randomfox.ca/floof/")
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl1(response.data.image);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        axios
+          .get("https://randomfox.ca/floof/")
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl2(response.data.image);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-      return null;
-    }
 
-    }
+      //////////////////////////////////
+      if (categoriaInicial == "museu") {
+        settitulo("Museus");
+        axios
+          .get(
+            `https://collectionapi.metmuseum.org/public/collection/v1/objects/${
+              museuIds.objectIDs[
+                Math.floor(Math.random() * museuIds.objectIDs.length)
+              ]
+            }
+          `
+          )
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl1(response.data.primaryImage);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
-    //////////////////////////////////
-    if (categoriaInicial == "aleatorio") {
-      settitulo("Aleatório");
-      axios
-        .get("https://dog.ceo/api/breeds/image/random")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl1(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        if (!(url1 != "")) {
+          console.log("não tem imagem 1");
+        }
 
-      axios
-        .get("https://dog.ceo/api/breeds/image/random")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl2(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+        axios
+          .get(
+            `https://collectionapi.metmuseum.org/public/collection/v1/objects/${
+              museuIds.objectIDs[
+                Math.floor(Math.random() * museuIds.objectIDs.length)
+              ]
+            }
+          `
+          )
+          .then((response) => {
+            console.log("Dados da API:", response);
+            setUrl2(response.data.primaryImage);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        if (!(url2 != "")) {
+          console.log("não tem imagem 2");
+        }
+      }
 
-    //////////////////////////////////
-    if (categoriaInicial == "raposa") {
-      settitulo("Raposas");
-      
-      axios
-        .get("https://randomfox.ca/floof/")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl1(response.data.image);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      axios
-        .get("https://randomfox.ca/floof/")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl2(response.data.image);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    //////////////////////////////////
-    if (categoriaInicial == "sapo") {
-      console.log(`http://allaboutfrogs.org/funstuff/random/${String(Math.floor(Math.random() * 55)).padStart(4, '0')}.jpg`)
-      axios
-        .get(`http://allaboutfrogs.org/funstuff/random/${String(Math.floor(Math.random() * 55)).padStart(4, '0')}.jpg`)
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl1(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      axios
-        .get("https://dog.ceo/api/breeds/image/random")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl2(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    //////////////////////////////////
-    if (categoriaInicial == "cachorro") {
-      axios
-        .get("https://dog.ceo/api/breeds/image/random")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl1(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      axios
-        .get("https://dog.ceo/api/breeds/image/random")
-        .then((response) => {
-          console.log("Dados da API:", response);
-          setUrl2(response.data.message);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  });
+      //////////////////////////////////
+      if (categoriaInicial == "sapo") {
+        setUrl1(
+          `http://allaboutfrogs.org/funstuff/random/${String(
+            Math.floor(Math.random() * 55)
+          ).padStart(4, "0")}.jpg`
+        );
+        setUrl2(
+          `http://allaboutfrogs.org/funstuff/random/${String(
+            Math.floor(Math.random() * 55)
+          ).padStart(4, "0")}.jpg`
+        );
+      }
+    };
+    fetchData();
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -331,6 +357,11 @@ export default function Page() {
               borderRadius: "10px",
               border: "10px solid #00CABF",
             }}
+            onClick={() => {
+              console.log(url1);
+              addImagem(url1.toString(), categoriaEscolhida);
+              incrementCliquesByUrl(url1);
+            }}
           />
         </div>
         <div
@@ -353,6 +384,9 @@ export default function Page() {
               height: "75%",
               borderRadius: "10px",
               border: "10px solid #FC6B04",
+            }}
+            onClick={() => {
+              incrementCliquesByUrl(url2);
             }}
           />
         </div>
