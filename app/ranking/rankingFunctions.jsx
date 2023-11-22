@@ -16,6 +16,7 @@ import {
  * @param {*} categoria categoria da imagem.
  */
 async function addImagem(url, categoria){
+    
     await addDoc(collection(db, "imagem"), {
         url: url,
         cliques: 0,
@@ -89,11 +90,15 @@ async function incrementCliquesByUrl(url) {
     const q = query(collection(db, "imagem"), where("url", "==", url), limit(1));
     await getDocs(q)
     .then((imagemSnap) => {
+        if(imagemSnap.size == 0){
+            throw new Error("NENHUMA IMAGEM POSSUI ESSE URL");
+        }
         imagemSnap.forEach((doc) => {
+            const qtd = doc.data().cliques + 1;
             updateDoc(doc, {
-            url: imagem.data().url,
+            url: doc.data().url,
             cliques: qtd,
-            categoria: imagem.data().categoria
+            categoria: doc.data().categoria
             });
         });
     })
