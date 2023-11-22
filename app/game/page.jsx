@@ -13,21 +13,16 @@ import {
   getImagensByClickCount,
   incrementCliquesByUrl,
 } from "../ranking/rankingFunctions";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function Page() {
   const [user, setUser] = useState(null);
+  const auth = getAuth();
 
   useEffect(() => {
-    const auth = getAuth();
-
-    const unsubscribe = onAuthStateChanged(auth, (usuario) => {
-      setUser(usuario);
-    });
-
-    // Cleanup da função de observação ao desmontar o componente
-    return () => unsubscribe();
+    setUser(auth.currentUser);
   }, []);
+
 
   const [exibir, setExibir] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
