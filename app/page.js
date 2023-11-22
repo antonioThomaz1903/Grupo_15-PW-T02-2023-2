@@ -20,7 +20,7 @@ export default function Home() {
   }
 
   function login(){
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, email, senha)
     .then((userCredential) => {
       const user = userCredential.user;
       router.push('\game');
@@ -41,7 +41,7 @@ export default function Home() {
         <textarea className="w-full flex flex-column justify-center rounded- text-black pass" onChange={handleSenhaLogin}></textarea>
         <button className="w-32 flex flex-column justify-center self-end">Esqueci a senha</button>
         <button className=" botaoLogin  bg-laranja"  onClick={()=>{login()}}>Entrar</button>
-        <button className=" botaoLogin  bg-ciano" onClick={()=>{router.push("/cadastro")}}>Cadastrar</button>
+        <button className=" botaoLogin  bg-ciano" onClick={()=>{router.push("/cadastro")}} onKeyDown={()=>{router.push("/game")}}>Cadastrar</button>
       </div>
     </main>
   )

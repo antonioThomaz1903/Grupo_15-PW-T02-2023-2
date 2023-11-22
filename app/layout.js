@@ -13,6 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
+      <button style={{backgroundColor:"#4444ff"}}className="absolute w-36 h-24 text-white border-4 radius-lg border-white left-8 top-8 hover:bg-white">SignOut</button>
 
     </html>
   );
