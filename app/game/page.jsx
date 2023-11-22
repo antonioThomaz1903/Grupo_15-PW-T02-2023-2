@@ -9,21 +9,19 @@ import { useRouter } from "next/navigation";
 import { parseCookies, setCookie } from "nookies";
 import {
   addImagem,
-  getImagens,
-  getImagensByClickCount,
+  getImagemByUrl,
   incrementCliquesByUrl,
 } from "../ranking/rankingFunctions";
 import { getAuth, signOut } from "firebase/auth";
+import { logout } from "../logout";
 
 export default function Page() {
-  const [user, setUser] = useState(null);
   const auth = getAuth();
 
-  useEffect(() => {
-    setUser(auth.currentUser);
-  }, []);
+  const [user, setUser] = useState(auth.currentUser);
 
-  
+  const router = useRouter();
+
   const [exibir, setExibir] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [clicou, setClicou] = useState(false);
@@ -34,6 +32,8 @@ export default function Page() {
   const [titulo, settitulo] = useState("");
 
   const [categoriaEscolhida, setCategoriaEscolhida] = useState("");
+
+  const [porcentagem, setPorcentagem] = useState("");
 
   const [requisitionURL, setRequisitionURL] = useState("");
 
@@ -253,338 +253,379 @@ export default function Page() {
     setSidebarOpen(!isSidebarOpen);
   };
 
-  const router = useRouter();
-
   return (
     <>
-      {user ? (
-        <div
-          style={{
-            width: "100vw",
-            height: "100vh",
-            flexDirection: "column",
-          }}
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          flexDirection: "column",
+        }}
+      >
+        <button
+          onClick={toggleSidebar}
+          className="fixed z-50 p-4 text-white cursor-pointer"
         >
-          <button
-            onClick={toggleSidebar}
-            className="fixed z-50 p-4 text-white cursor-pointer"
-          >
-            {isSidebarOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            )}
-          </button>
-
-          <button
-            onClick={() => {
-              router.push("/ranking");
-            }}
-            className="fixed z-50 right-6 p-4 w-10 text-white cursor-pointer"
-          >
+          {isSidebarOpen ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              fill="yellow"
-              className="bi bi-star-fill"
-              viewBox="0 0 16 16"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
-          </button>
-
-          <div
-            style={{
-              width: "100%",
-              height: "10%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
-          >
-            <h1
-              style={{
-                background: "linear-gradient(to right, #FC6B04, #00CABF)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <b>{titulo}</b>
-            </h1>
-          </div>
-          <div
-            style={{
-              width: "100%",
-              height: "80%",
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
-            <div
-              style={{
-                width: "50%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                src={url1}
-                width={0}
-                height={0}
-                alt="imagem aletatória"
-                sizes="100vw"
-                className="foto"
-                style={{
-                  width: "75%",
-                  height: "75%",
-                  borderRadius: "10px",
-                  border: "10px solid #00CABF",
-                }}
-                onClick={() => {
-                  if (!clicou) {
-                    console.log(url1);
-                    addImagem(url1.toString(), categoriaEscolhida);
-                    incrementCliquesByUrl(url1);
-                    setClicou(true);
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 2000);
-                  }
-                }}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
               />
-            </div>
-            <div
-              style={{
-                width: "50%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                src={url2}
-                width={0}
-                height={0}
-                alt="imagem aletatória"
-                sizes="100vw"
-                className="foto"
-                style={{
-                  width: "75%",
-                  height: "75%",
-                  borderRadius: "10px",
-                  border: "10px solid #FC6B04",
-                }}
-                onClick={() => {
-                  if (!clicou) {
-                    console.log(url2);
-                    addImagem(url2.toString(), categoriaEscolhida);
-                    incrementCliquesByUrl(url2);
-                    setClicou(true);
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 2000);
-                  }
-                }}
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              height: "10%",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          ></div>
+            </svg>
+          )}
+        </button>
 
-          <nav
-            className={`fixed h-full top-0 left-0 bg-black text-white p-4 transition-transform transform ${
-              isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } w-64 z-50`}
-          >
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-xl font-semibold">Categorias</h1>
-              <button
-                onClick={toggleSidebar}
-                className="text-white text-xl font-bold"
-              >
-                X
-              </button>
-            </div>
-            <ul style={{ width: "100%", width: "100%", padding: "0px" }}>
-              <li className="mb-2">
-                <button
-                  className="w-full"
-                  onClick={() => {
-                    handleEscolhaCategoria("aleatorio");
-                  }}
-                >
-                  <h1
-                    className="text-white border-b-4 border-gray"
-                    style={{ fontSize: "25px" }}
-                  >
-                    Aleatório
-                  </h1>
-                </button>
-              </li>
-              <li
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-                className="mb-2"
-              >
-                <div className="flex flex-row justify-between">
-                  <a className="w-full w-5/6">
-                    <h1
-                      className="text-white border-b-4 border-gray w-full"
-                      style={{ fontSize: "25px" }}
-                    >
-                      Animais
-                    </h1>
-                  </a>
-                  <button
-                    style={{
-                      position: "relative",
-                      left: "0px",
-                      flexDirection: "column",
-                      color: "white",
-                      fontsize: "20px",
-                      fontWeight: "bold",
-                    }}
-                    onClick={() =>
-                      exibir ? setExibir(false) : setExibir(true)
-                    }
-                  >
-                    <a>{exibir ? "-" : "+"}</a>
-                  </button>
-                </div>
-                {exibir ? (
-                  <ul>
-                    <li className="mb-2">
-                      <button
-                        className="w-full"
-                        onClick={() => {
-                          handleEscolhaCategoria("cachorro");
-                        }}
-                      >
-                        <h1
-                          className="text-white border-b-4 border-gray"
-                          style={{ fontSize: "20px" }}
-                        >
-                          Cachorro
-                        </h1>
-                      </button>
-                    </li>
-                    <li className="mb-2">
-                      <button
-                        className="w-full"
-                        onClick={() => {
-                          handleEscolhaCategoria("gato");
-                        }}
-                      >
-                        <h1
-                          className="text-white border-b-4 border-gray"
-                          style={{ fontSize: "20px" }}
-                        >
-                          Gato
-                        </h1>
-                      </button>
-                    </li>
-                    <li className="mb-2">
-                      <button
-                        className="w-full"
-                        onClick={() => {
-                          handleEscolhaCategoria("raposa");
-                        }}
-                      >
-                        <h1
-                          className="text-white border-b-4 border-gray"
-                          style={{ fontSize: "20px" }}
-                        >
-                          Raposas
-                        </h1>
-                      </button>
-                    </li>
-                    <li className="mb-2">
-                      <button
-                        className="w-full"
-                        onClick={() => {
-                          handleEscolhaCategoria("sapo");
-                        }}
-                      >
-                        <h1
-                          className="text-white border-b-4 border-gray"
-                          style={{ fontSize: "20px" }}
-                        >
-                          Sapos
-                        </h1>
-                      </button>
-                    </li>
-                  </ul>
-                ) : null}
-              </li>
-              <li className="mb-2">
-                <button
-                  className="w-full"
-                  onClick={() => {
-                    handleEscolhaCategoria("museu");
-                  }}
-                >
-                  <h1
-                    className="text-white border-b-4 border-gray"
-                    style={{ fontSize: "25px" }}
-                  >
-                    Museu
-                  </h1>
-                </button>
-              </li>
-            </ul>
-          </nav>
-          <div
-            className={`fixed h-full top-0 left-0 bg-black opacity-25 z-40 transition-opacity ${
-              isSidebarOpen ? "block" : "hidden"
-            }`}
-            onClick={toggleSidebar}
-          ></div>
-        </div>
-      ) : (
-        <div>
-          {() => {
-            router.push("/");
+        <button
+          onClick={() => {
+            router.push("/ranking");
           }}
+          className="fixed z-50 right-6 p-4 w-10 text-white cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            fill="yellow"
+            className="bi bi-star-fill"
+            viewBox="0 0 16 16"
+          >
+            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+          </svg>
+        </button>
+
+        <div
+          style={{
+            width: "100%",
+            height: "10%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <h1
+            style={{
+              background: "linear-gradient(to right, #FC6B04, #00CABF)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            <b>{titulo}</b>
+          </h1>
         </div>
-      )}
+        <div
+          style={{
+            width: "100%",
+            height: "70%",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div
+            style={{
+              width: "50%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              src={url1}
+              width={0}
+              height={0}
+              alt="imagem aletatória"
+              sizes="100vw"
+              className="foto"
+              style={{
+                width: "75%",
+                height: "75%",
+                borderRadius: "10px",
+                border: "10px solid #00CABF",
+              }}
+              onClick={() => {
+                if (!clicou) {
+                  console.log(url1);
+                  addImagem(url1.toString(), categoriaEscolhida);
+                  addImagem(url2.toString(), categoriaEscolhida);
+                  incrementCliquesByUrl(url1);
+                  setClicou(true);
+                  setTimeout(async () => {
+                    const dataUrl1 = await getImagemByUrl(url1);
+                    const dataUrl2 = await getImagemByUrl(url2);
+                    const cliques1 = parseInt(dataUrl1.cliques);
+                    const cliques2 = parseInt(dataUrl2.cliques);
+                    setPorcentagem((cliques1 * 100) / (cliques1 + cliques2));
+
+                    console.log((cliques1 * 100) / (cliques1 + cliques2) + "%");
+                  }, 500);
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 3000);
+                }
+              }}
+            />
+          </div>
+          <div
+            style={{
+              width: "50%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              src={url2}
+              width={0}
+              height={0}
+              alt="imagem aletatória"
+              sizes="100vw"
+              className="foto"
+              style={{
+                width: "75%",
+                height: "75%",
+                borderRadius: "10px",
+                border: "10px solid #FC6B04",
+              }}
+              onClick={() => {
+                if (!clicou) {
+                  console.log(url2);
+                  addImagem(url1.toString(), categoriaEscolhida);
+                  addImagem(url2.toString(), categoriaEscolhida);
+                  incrementCliquesByUrl(url2);
+                  setClicou(true);
+                  setTimeout(async () => {
+                    const dataUrl1 = await getImagemByUrl(url1);
+                    const dataUrl2 = await getImagemByUrl(url2);
+                    const cliques1 = parseInt(dataUrl1.cliques);
+                    const cliques2 = parseInt(dataUrl2.cliques);
+                    setPorcentagem((cliques1 * 100) / (cliques1 + cliques2));
+                    console.log((cliques2 * 100) / (cliques1 + cliques2) + "%");
+                  }, 500);
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 3000);
+                }
+              }}
+            />
+          </div>
+        </div>
+        <div
+          style={{
+            height: "10%",
+            width: "80%",
+            margin: "auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#00CABF",
+              width: `${porcentagem}%`,
+              transition: "width 0.5s, opacity 0.5s",
+              opacity: clicou ? 1 : 0, // Ajuste conforme necessário
+            }}
+            className={`h-16 border-2 jusify-start p-3 ${
+              clicou ? "flex" : "hidden"
+            } right-0`}
+          >
+            <p className="text-white font-bold text-xl">{`${
+              Math.round(porcentagem * 100) / 100
+            }%`}</p>
+          </div>
+          <div
+            style={{
+              backgroundColor: clicou ? "#FC6B04" : "#000000",
+              width: `${100 - porcentagem}%`,
+              transition: "width 0.5s, opacity 0.5s",
+              opacity: clicou ? 1 : 0, // Ajuste conforme necessário
+            }}
+            className={`h-16 border-2 text-end p-4${
+              clicou ? "flex" : "hidden"
+            } right-0`}
+          >
+            <p className="text-white font-bold text-xl p-3">{`${
+              Math.round((100 - porcentagem) * 100) / 100
+            }%`}</p>
+          </div>
+        </div>
+
+        <nav
+          className={`fixed h-full top-0 left-0 bg-black text-white p-4 transition-transform transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } w-64 z-50`}
+        >
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-semibold">Categorias</h1>
+            <button
+              onClick={toggleSidebar}
+              className="text-white text-xl font-bold"
+            >
+              X
+            </button>
+          </div>
+          <ul style={{ width: "100%", width: "100%", padding: "0px" }}>
+            <li className="mb-2">
+              <button
+                className="w-full"
+                onClick={() => {
+                  handleEscolhaCategoria("aleatorio");
+                }}
+              >
+                <h1
+                  className="text-white border-b-4 border-gray"
+                  style={{ fontSize: "25px" }}
+                >
+                  Aleatório
+                </h1>
+              </button>
+            </li>
+            <li
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+              className="mb-2"
+            >
+              <div className="flex flex-row justify-between">
+                <a className="w-full w-5/6">
+                  <h1
+                    className="text-white border-b-4 border-gray w-full"
+                    style={{ fontSize: "25px" }}
+                  >
+                    Animais
+                  </h1>
+                </a>
+                <button
+                  style={{
+                    position: "relative",
+                    left: "0px",
+                    flexDirection: "column",
+                    color: "white",
+                    fontsize: "20px",
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => (exibir ? setExibir(false) : setExibir(true))}
+                >
+                  <a>{exibir ? "-" : "+"}</a>
+                </button>
+              </div>
+              {exibir ? (
+                <ul>
+                  <li className="mb-2">
+                    <button
+                      className="w-full"
+                      onClick={() => {
+                        handleEscolhaCategoria("cachorro");
+                      }}
+                    >
+                      <h1
+                        className="text-white border-b-4 border-gray"
+                        style={{ fontSize: "20px" }}
+                      >
+                        Cachorro
+                      </h1>
+                    </button>
+                  </li>
+                  <li className="mb-2">
+                    <button
+                      className="w-full"
+                      onClick={() => {
+                        handleEscolhaCategoria("gato");
+                      }}
+                    >
+                      <h1
+                        className="text-white border-b-4 border-gray"
+                        style={{ fontSize: "20px" }}
+                      >
+                        Gato
+                      </h1>
+                    </button>
+                  </li>
+                  <li className="mb-2">
+                    <button
+                      className="w-full"
+                      onClick={() => {
+                        handleEscolhaCategoria("raposa");
+                      }}
+                    >
+                      <h1
+                        className="text-white border-b-4 border-gray"
+                        style={{ fontSize: "20px" }}
+                      >
+                        Raposas
+                      </h1>
+                    </button>
+                  </li>
+                  <li className="mb-2">
+                    <button
+                      className="w-full"
+                      onClick={() => {
+                        handleEscolhaCategoria("sapo");
+                      }}
+                    >
+                      <h1
+                        className="text-white border-b-4 border-gray"
+                        style={{ fontSize: "20px" }}
+                      >
+                        Sapos
+                      </h1>
+                    </button>
+                  </li>
+                </ul>
+              ) : null}
+            </li>
+            <li className="mb-2">
+              <button
+                className="w-full"
+                onClick={() => {
+                  handleEscolhaCategoria("museu");
+                }}
+              >
+                <h1
+                  className="text-white border-b-4 border-gray"
+                  style={{ fontSize: "25px" }}
+                >
+                  Museu
+                </h1>
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <div
+          className={`fixed h-full top-0 left-0 bg-black opacity-25 z-40 transition-opacity ${
+            isSidebarOpen ? "block" : "hidden"
+          }`}
+          onClick={toggleSidebar}
+        ></div>
+      </div>
     </>
   );
 }
