@@ -13,8 +13,7 @@
 }
 
 body{
-  background: rgb(0,0,0);
-background: linear-gradient(34deg, rgba(0,0,0,1) 0%, rgba(73,73,73,1) 100%, rgba(106,106,106,1) 100%, rgba(255,255,255,1) 100%);
+background: linear-gradient(0deg,#020617 0%,#020617 100%,#020617 100%,#020617 100%);
 }
 
 .foto {
@@ -34,7 +33,6 @@ main{
 
 .container-texto{
   font-size: xx-large;
-  
 }
 
 .texto{
@@ -68,4 +66,240 @@ main{
 
 .botaoLogin{
   @apply w-1/3 h-12 border-2 content-center rounded-md m-4 duration-500 hover:scale-110 hover:shadow-xl;
+}
+
+.gradient-border-laranja {
+  width: 75%;
+  height: 75%;
+  border: 15px solid #FC6B04;
+}
+
+.gradient-border-laranja:hover{
+  border: 15px solid transparent;
+  border-image: linear-gradient(45deg, #ff6a00, #00fff2);
+  border-image-slice: 1;
+  animation: gradientAnimationLaranja 3s infinite;
+}
+
+@keyframes gradientAnimationLaranja {
+  0% {
+    border-image-source: linear-gradient(0deg, #741b00, #ff6a00);
+  }
+  5% {
+    border-image-source: linear-gradient(18deg, #741b00, #ff6a00);
+  }
+  10% {
+    border-image-source: linear-gradient(36deg, #741b00, #ff6a00);
+  }
+  15% {
+    border-image-source: linear-gradient(54deg, #741b00, #ff6a00);
+  }
+  20% {
+    border-image-source: linear-gradient(72deg, #741b00, #ff6a00);
+  }
+  25% {
+    border-image-source: linear-gradient(90deg, #741b00, #ff6a00);
+  }
+  30% {
+    border-image-source: linear-gradient(108deg, #741b00, #ff6a00);
+  }
+  35% {
+    border-image-source: linear-gradient(126deg, #741b00, #ff6a00);
+  }
+  40% {
+    border-image-source: linear-gradient(144deg, #741b00, #ff6a00);
+  }
+  45% {
+    border-image-source: linear-gradient(162deg, #741b00, #ff6a00);
+  }
+  50% {
+    border-image-source: linear-gradient(180deg, #741b00, #ff6a00);
+  }
+  55% {
+    border-image-source: linear-gradient(198deg, #741b00, #ff6a00);
+  }
+  60% {
+    border-image-source: linear-gradient(216deg, #741b00, #ff6a00);
+  }
+  65% {
+    border-image-source: linear-gradient(234deg, #741b00, #ff6a00);
+  }
+  70% {
+    border-image-source: linear-gradient(252deg, #741b00, #ff6a00);
+  }
+  75% {
+    border-image-source: linear-gradient(270deg, #741b00, #ff6a00);
+  }
+  80% {
+    border-image-source: linear-gradient(288deg, #741b00, #ff6a00);
+  }
+  85% {
+    border-image-source: linear-gradient(306deg, #741b00, #ff6a00);
+  }
+  90% {
+    border-image-source: linear-gradient(324deg, #741b00, #ff6a00);
+  }
+  95% {
+    border-image-source: linear-gradient(342deg, #741b00, #ff6a00);
+  }
+  100% {
+    border-image-source: linear-gradient(360deg, #741b00, #ff6a00);
+  }
+
+}
+
+.gradient-border-ciano {
+  width: 75%;
+  height: 75%;
+  border: 15px solid #00CABF;
+}
+
+.gradient-border-ciano:hover{
+  border: 15px solid transparent;
+  border-image: linear-gradient(45deg, #00fff2, #003481);
+  border-image-slice: 1;
+  animation: gradientAnimationCiano 2s infinite;
+  
+}
+
+@keyframes gradientAnimationCiano {
+  0% {
+    border-image-source: linear-gradient(0deg, #0099ff, #00fff2);
+  }
+  5% {
+    border-image-source: linear-gradient(18deg, #0066ff, #00fff2);
+  }
+  10% {
+    border-image-source: linear-gradient(36deg, #003481, #00fff2);
+  }
+  15% {
+    border-image-source: linear-gradient(54deg, #003481, #00fff2);
+  }
+  20% {
+    border-image-source: linear-gradient(72deg, #003481, #00fff2);
+  }
+  25% {
+    border-image-source: linear-gradient(90deg, #003481, #00fff2);
+  }
+  30% {
+    border-image-source: linear-gradient(108deg, #003481, #00fff2);
+  }
+  35% {
+    border-image-source: linear-gradient(126deg, #003481, #00fff2);
+  }
+  40% {
+    border-image-source: linear-gradient(144deg, #003481, #00fff2);
+  }
+  45% {
+    border-image-source: linear-gradient(162deg, #003481, #00fff2);
+  }
+  50% {
+    border-image-source: linear-gradient(180deg, #003481, #00fff2);
+  }
+  55% {
+    border-image-source: linear-gradient(198deg, #003481, #00fff2);
+  }
+  60% {
+    border-image-source: linear-gradient(216deg, #003481, #00fff2);
+  }
+  65% {
+    border-image-source: linear-gradient(234deg, #003481, #00fff2);
+  }
+  70% {
+    border-image-source: linear-gradient(252deg, #003481, #00fff2);
+  }
+  75% {
+    border-image-source: linear-gradient(270deg, #003481, #00fff2);
+  }
+  80% {
+    border-image-source: linear-gradient(288deg, #003481, #00fff2);
+  }
+  85% {
+    border-image-source: linear-gradient(306deg, #003481, #00fff2);
+  }
+  90% {
+    border-image-source: linear-gradient(324deg, #003481, #00fff2);
+  }
+  95% {
+    border-image-source: linear-gradient(342deg, #0066ff, #00fff2);
+  }
+  100% {
+    border-image-source: linear-gradient(360deg, #0099ff, #00fff2);
+  }
+
+}
+
+.gradient-border-menu {
+  border: 15px solid transparent;
+  border-image: linear-gradient(45deg, #00fff2, #ff6a00);
+  border-image-slice: 1;
+  animation: gradientAnimationMenu 15s infinite;
+  
+}
+
+@keyframes gradientAnimationMenu {
+  0% {
+    border-image-source: linear-gradient(0deg, #ff6a00, #00fff2);
+  }
+  5% {
+    border-image-source: linear-gradient(18deg, #ff6a00, #00fff2);
+  }
+  10% {
+    border-image-source: linear-gradient(36deg, #ff6a00, #00fff2);
+  }
+  15% {
+    border-image-source: linear-gradient(54deg, #ff6a00, #00fff2);
+  }
+  20% {
+    border-image-source: linear-gradient(72deg, #ff6a00, #00fff2);
+  }
+  25% {
+    border-image-source: linear-gradient(90deg, #ff6a00, #00fff2);
+  }
+  30% {
+    border-image-source: linear-gradient(108deg, #ff6a00, #00fff2);
+  }
+  35% {
+    border-image-source: linear-gradient(126deg, #ff6a00, #00fff2);
+  }
+  40% {
+    border-image-source: linear-gradient(144deg, #ff6a00, #00fff2);
+  }
+  45% {
+    border-image-source: linear-gradient(162deg, #ff6a00, #00fff2);
+  }
+  50% {
+    border-image-source: linear-gradient(180deg, #ff6a00, #00fff2);
+  }
+  55% {
+    border-image-source: linear-gradient(198deg, #ff6a00, #00fff2);
+  }
+  60% {
+    border-image-source: linear-gradient(216deg, #ff6a00, #00fff2);
+  }
+  65% {
+    border-image-source: linear-gradient(234deg, #ff6a00, #00fff2);
+  }
+  70% {
+    border-image-source: linear-gradient(252deg, #ff6a00, #00fff2);
+  }
+  75% {
+    border-image-source: linear-gradient(270deg, #ff6a00, #00fff2);
+  }
+  80% {
+    border-image-source: linear-gradient(288deg, #ff6a00, #00fff2);
+  }
+  85% {
+    border-image-source: linear-gradient(306deg, #ff6a00, #00fff2);
+  }
+  90% {
+    border-image-source: linear-gradient(324deg, #ff6a00, #00fff2);
+  }
+  95% {
+    border-image-source: linear-gradient(342deg, #ff6a00, #00fff2);
+  }
+  100% {
+    border-image-source: linear-gradient(360deg, #ff6a00, #00fff2);
+  }
+
 }

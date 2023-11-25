@@ -12,11 +12,24 @@ import {
 } from "./rankingFunctions";
 
 export default function Page() {
+  const router = useRouter();
+
   const [imageURLs, setImageURLs] = useState([]);
 
   const [categoriaEscolhida, setCategoriaEscolhida] = useState("");
 
   const [ranking, setRanking] = useState([]);
+
+  const [exibir, setExibir] = useState(false);
+
+  const handleEscolhaCategoria = (categoria) => {
+    // Crie um cookie para armazenar a categoria escolhida
+    setCookie(null, "categoriaEscolhida", categoria, {
+      maxAge: 7 * 24 * 60 * 60,
+      path: "/",
+    }); // O cookie expirará em 7 dias (ajuste conforme necessário)
+    router.push("/game");
+  };
 
   useState(() => {
     const cookies = parseCookies();
@@ -37,7 +50,6 @@ export default function Page() {
   const top3Images = ranking.slice(0, 3);
   const otherImages = ranking.slice(3);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const router = useRouter();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -135,13 +147,141 @@ export default function Page() {
         </ul>
       </div>
 
-      <Sidebar isOpen={isSidebarOpen} closeSidebar={toggleSidebar} />
-      <div
-        className={`fixed h-full top-0 left-0 bg-black opacity-25 z-40 transition-opacity ${
-          isSidebarOpen ? "block" : "hidden"
-        }`}
-        onClick={toggleSidebar}
-      ></div>
+      <nav
+          className={`fixed h-full gradient-border-menu top-0 left-0 bg-black rounded-top-right-lg text-white transition-transform transform ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } w-64 z-50`}
+        >
+          <div class="flex flex-col rounded-lg items-center w-full h-full overflow-hidden text-white bg-gray-800 rounded">
+            <div className="flex flex-row w-full justify-between border-b-2 border-white">
+              <h1 className="text-2xl pt-8 pl-4 font-bold">Categorias</h1>
+              <button
+                onClick={toggleSidebar}
+                className="text-white self-start p-2 text-xl font-bold"
+              >
+                X
+              </button>
+            </div>
+            <ul className="h-full w-full pt-4 pl-0">
+              <li className="mb-2">
+                <button
+                  className="flex items-center pt-3 text-2xl text-gray-200 hover:text-white pl-8 w-full h-12 mt-2 rounded hover:bg-gray-700 hover:text-white"
+                  onClick={() => {
+                    handleEscolhaCategoria("aleatorio");
+                  }}
+                >
+                  <p
+                    
+                  >
+                    Aleatório
+                  </p>
+                </button>
+              </li>
+              <li
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                className="mb-2"
+              >
+                <div className="w-full items-center flex">
+                  <button
+                   className="flex pt-3 items-center pl-8 text-2xl w-full h-12 mt-2 rounded hover:bg-gray-700 hover:text-white"
+                    onClick={() =>
+                      exibir ? setExibir(false) : setExibir(true)
+                    }
+                  >
+                    <p
+                      
+                    >
+                      Animais
+                    </p>
+
+                  </button>
+                </div>
+                {exibir ? (
+                  <>
+                    <ul>
+                      <li>
+                        <button
+                           className="flex bg-gray-700 items-center ml-8 p-2 w-full h-12 mt-2 rounded hover:bg-gray-600 hover:text-white"
+                          onClick={() => {
+                            handleEscolhaCategoria("cachorro");
+                          }}
+                        >
+                          <h1
+                            style={{ fontSize: "20px" }}
+                          >
+                            Cachorro
+                          </h1>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                           className="flex items-center bg-gray-700 ml-8 p-2 w-full h-12 p2 hover:bg-gray-600 hover:text-white"
+                          onClick={() => {
+                            handleEscolhaCategoria("gato");
+                          }}
+                        >
+                          <h1
+                           style={{ fontSize: "20px" }}
+                          >
+                            Gato
+                          </h1>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                           className="flex items-center bg-gray-700 ml-8 p-2 w-full h-12 hover:bg-gray-600 hover:text-white"onClick={() => {
+                            handleEscolhaCategoria("raposa");
+                          }}
+                        >
+                          <h1
+                            style={{ fontSize: "20px" }}
+                          >
+                            Raposas
+                          </h1>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                           className="flex items-center bg-gray-700 ml-8 p-2 w-full h-12 hover:bg-gray-600 hover:text-white"onClick={() => {
+                            handleEscolhaCategoria("sapo");
+                          }}
+                        >
+                          <h1
+                            style={{ fontSize: "20px" }}
+                          >
+                            Sapos
+                          </h1>
+                        </button>
+                      </li>
+                    </ul>
+                  </>
+                ) : null}
+              </li>
+              <li className="mb-2">
+                <button
+                   className="flex pt-3 items-center text-2xl pl-8 w-full h-12 mt-2 hover:bg-gray-700 hover:text-white"onClick={() => {
+                    handleEscolhaCategoria("museu");
+                  }}
+                >
+                  <p
+                    
+                  >
+                    Museu
+                  </p>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div
+          className={`fixed h-full top-0 left-0 bg-black opacity-25 z-40 transition-opacity ${
+            isSidebarOpen ? "block" : "hidden"
+          }`}
+          onClick={toggleSidebar}
+        ></div>
     </div>
   );
 }
