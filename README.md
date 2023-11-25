@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Seu projeto é uma aplicação web desenvolvida em Next.js, utilizando Tailwind CSS para a estilização e Firebase como banco de dados. Esta aplicação consiste em um game denominado como This or That onde duas opções são informadas ao usuário, e ele deve escolher entre uma delas, com isso, os dados das escolhas são salvos no banco de dados e é possível elencar quais foram as imagens mais escolhidas pelos usuários.
+Este projeto é uma aplicação web desenvolvida em Next.js, utilizando Tailwind CSS para a estilização e Firebase como banco de dados. Esta aplicação consiste em um game denominado como This or That onde duas opções são informadas ao usuário, e ele deve escolher entre uma delas, com isso, os dados das escolhas são salvos no banco de dados e é possível elencar quais foram as imagens mais escolhidas pelos usuários.
 
 ## Tecnologias Utilizadas
 
