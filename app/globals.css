@@ -164,10 +164,10 @@ main{
 
 @keyframes gradientAnimationCiano {
   0% {
-    border-image-source: linear-gradient(0deg, #0099ff, #00fff2);
+    border-image-source: linear-gradient(0deg, #003481, #00fff2);
   }
   5% {
-    border-image-source: linear-gradient(18deg, #0066ff, #00fff2);
+    border-image-source: linear-gradient(18deg, #003481, #00fff2);
   }
   10% {
     border-image-source: linear-gradient(36deg, #003481, #00fff2);
@@ -221,85 +221,32 @@ main{
     border-image-source: linear-gradient(324deg, #003481, #00fff2);
   }
   95% {
-    border-image-source: linear-gradient(342deg, #0066ff, #00fff2);
+    border-image-source: linear-gradient(342deg, #003481, #00fff2);
   }
   100% {
-    border-image-source: linear-gradient(360deg, #0099ff, #00fff2);
+    border-image-source: linear-gradient(360deg, #003481, #00fff2);
   }
 
 }
 
 .gradient-border-menu {
-  border: 15px solid transparent;
-  border-image: linear-gradient(45deg, #00fff2, #ff6a00);
-  border-image-slice: 1;
-  animation: gradientAnimationMenu 15s infinite;
-  
+  background: linear-gradient(-90deg, #ff8900, #00d3cc);
+	background-size: 600% 600%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
 }
 
-@keyframes gradientAnimationMenu {
-  0% {
-    border-image-source: linear-gradient(0deg, #ff6a00, #00fff2);
-  }
-  5% {
-    border-image-source: linear-gradient(18deg, #ff6a00, #00fff2);
-  }
-  10% {
-    border-image-source: linear-gradient(36deg, #ff6a00, #00fff2);
-  }
-  15% {
-    border-image-source: linear-gradient(54deg, #ff6a00, #00fff2);
-  }
-  20% {
-    border-image-source: linear-gradient(72deg, #ff6a00, #00fff2);
-  }
-  25% {
-    border-image-source: linear-gradient(90deg, #ff6a00, #00fff2);
-  }
-  30% {
-    border-image-source: linear-gradient(108deg, #ff6a00, #00fff2);
-  }
-  35% {
-    border-image-source: linear-gradient(126deg, #ff6a00, #00fff2);
-  }
-  40% {
-    border-image-source: linear-gradient(144deg, #ff6a00, #00fff2);
-  }
-  45% {
-    border-image-source: linear-gradient(162deg, #ff6a00, #00fff2);
-  }
-  50% {
-    border-image-source: linear-gradient(180deg, #ff6a00, #00fff2);
-  }
-  55% {
-    border-image-source: linear-gradient(198deg, #ff6a00, #00fff2);
-  }
-  60% {
-    border-image-source: linear-gradient(216deg, #ff6a00, #00fff2);
-  }
-  65% {
-    border-image-source: linear-gradient(234deg, #ff6a00, #00fff2);
-  }
-  70% {
-    border-image-source: linear-gradient(252deg, #ff6a00, #00fff2);
-  }
-  75% {
-    border-image-source: linear-gradient(270deg, #ff6a00, #00fff2);
-  }
-  80% {
-    border-image-source: linear-gradient(288deg, #ff6a00, #00fff2);
-  }
-  85% {
-    border-image-source: linear-gradient(306deg, #ff6a00, #00fff2);
-  }
-  90% {
-    border-image-source: linear-gradient(324deg, #ff6a00, #00fff2);
-  }
-  95% {
-    border-image-source: linear-gradient(342deg, #ff6a00, #00fff2);
-  }
+@keyframes gradient {
+	0% {
+		background-position: 0% 0%;
+	}
+  00% {
+		background-position: 0% 0%;
+	}
+	50% {
+		background-position: 100% 100%;
+	}
   100% {
-    border-image-source: linear-gradient(360deg, #ff6a00, #00fff2);
-  }
-
+		background-position: 0% 0%;
+	}
 }

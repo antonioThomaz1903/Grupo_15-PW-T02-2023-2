@@ -10,6 +10,7 @@ import {
   getImagensByClickCount,
   incrementCliquesByUrl,
 } from "./rankingFunctions";
+import { logout } from "../logout";
 
 export default function Page() {
   const router = useRouter();
@@ -23,11 +24,10 @@ export default function Page() {
   const [exibir, setExibir] = useState(false);
 
   const handleEscolhaCategoria = (categoria) => {
-    // Crie um cookie para armazenar a categoria escolhida
     setCookie(null, "categoriaEscolhida", categoria, {
       maxAge: 7 * 24 * 60 * 60,
       path: "/",
-    }); // O cookie expirará em 7 dias (ajuste conforme necessário)
+    }); 
     router.push("/game");
   };
 
@@ -36,7 +36,7 @@ export default function Page() {
     const categoriaInicial = cookies.categoriaEscolhida;
     console.log(categoriaEscolhida);
     if (categoriaInicial) {
-      setCategoriaEscolhida(categoriaInicial); // Obtém a categoria do cookie
+      setCategoriaEscolhida(categoriaInicial);
       console.log(categoriaEscolhida);
     }
   });
@@ -148,11 +148,11 @@ export default function Page() {
       </div>
 
       <nav
-          className={`fixed h-full gradient-border-menu top-0 left-0 bg-black rounded-top-right-lg text-white transition-transform transform ${
+          className={`fixed h-full top-0 left-0 bg-black  text-white transition-transform transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } w-64 z-50`}
         >
-          <div class="flex flex-col rounded-lg items-center w-full h-full overflow-hidden text-white bg-gray-800 rounded">
+          <div class="flex  gradient-border-menu flex-col items-center w-full h-full overflow-hidden text-white border-r-4">
             <div className="flex flex-row w-full justify-between border-b-2 border-white">
               <h1 className="text-2xl pt-8 pl-4 font-bold">Categorias</h1>
               <button
@@ -162,19 +162,15 @@ export default function Page() {
                 X
               </button>
             </div>
-            <ul className="h-full w-full pt-4 pl-0">
+            <ul className="h-full w-full pt-4 pl-0 left-0">
               <li className="mb-2">
                 <button
-                  className="flex items-center pt-3 text-2xl text-gray-200 hover:text-white pl-8 w-full h-12 mt-2 rounded hover:bg-gray-700 hover:text-white"
+                  className="flex items-center pt-3 text-2xl text-white pl-8 w-full h-12 mt-2  hover:bg-[#19284a]  hover:text-white"
                   onClick={() => {
                     handleEscolhaCategoria("aleatorio");
                   }}
                 >
-                  <p
-                    
-                  >
-                    Aleatório
-                  </p>
+                  <p>Aleatório</p>
                 </button>
               </li>
               <li
@@ -186,74 +182,106 @@ export default function Page() {
               >
                 <div className="w-full items-center flex">
                   <button
-                   className="flex pt-3 items-center pl-8 text-2xl w-full h-12 mt-2 rounded hover:bg-gray-700 hover:text-white"
+                    className="flex pt-3 items-center pl-8 text-2xl w-full h-12 mt-2  hover:bg-[#19284a] hover:text-white"
                     onClick={() =>
                       exibir ? setExibir(false) : setExibir(true)
                     }
                   >
-                    <p
-                      
-                    >
-                      Animais
-                    </p>
-
+                    {!exibir ? (
+                      <svg
+                        className="mb-3 mr-2"
+                        width="25px"
+                        height="25px"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9 12H15"
+                          stroke="#ffffff"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M12 9L12 15"
+                          stroke="#ffffff"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M3 12C3 4.5885 4.5885 3 12 3C19.4115 3 21 4.5885 21 12C21 19.4115 19.4115 21 12 21C4.5885 21 3 19.4115 3 12Z"
+                          stroke="#ffffff"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="mb-3 mr-2"
+                        width="25px"
+                        height="25px"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
+                        />
+                        <path
+                          d="M15 12H9"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                        />
+                      </svg>
+                    )}
+                    <p>{`Animais`}</p>
                   </button>
                 </div>
                 {exibir ? (
                   <>
-                    <ul>
+                    <ul className="w-full pl-0">
                       <li>
                         <button
-                           className="flex bg-gray-700 items-center ml-8 p-2 w-full h-12 mt-2 rounded hover:bg-gray-600 hover:text-white"
+                          className="flex border-t-4 items-center pl-16 w-full h-12 mt-2 bg-slate-800 hover:bg-[#122c66] hover:text-white"
                           onClick={() => {
                             handleEscolhaCategoria("cachorro");
                           }}
                         >
-                          <h1
-                            style={{ fontSize: "20px" }}
-                          >
-                            Cachorro
-                          </h1>
+                          <h1 style={{ fontSize: "20px" }}>Cachorro</h1>
                         </button>
                       </li>
                       <li>
                         <button
-                           className="flex items-center bg-gray-700 ml-8 p-2 w-full h-12 p2 hover:bg-gray-600 hover:text-white"
+                          className="flex  items-center pl-16 w-full h-12 bg-slate-800 hover:bg-[#122c66] hover:text-white"
                           onClick={() => {
                             handleEscolhaCategoria("gato");
                           }}
                         >
-                          <h1
-                           style={{ fontSize: "20px" }}
-                          >
-                            Gato
-                          </h1>
+                          <h1 style={{ fontSize: "20px" }}>Gato</h1>
                         </button>
                       </li>
                       <li>
                         <button
-                           className="flex items-center bg-gray-700 ml-8 p-2 w-full h-12 hover:bg-gray-600 hover:text-white"onClick={() => {
+                          className="flex  items-center pl-16 w-full h-12 bg-slate-800 hover:bg-[#122c66] hover:text-white"
+                          onClick={() => {
                             handleEscolhaCategoria("raposa");
                           }}
                         >
-                          <h1
-                            style={{ fontSize: "20px" }}
-                          >
-                            Raposas
-                          </h1>
+                          <h1 style={{ fontSize: "20px" }}>Raposas</h1>
                         </button>
                       </li>
                       <li>
                         <button
-                           className="flex items-center bg-gray-700 ml-8 p-2 w-full h-12 hover:bg-gray-600 hover:text-white"onClick={() => {
+                          className="flex border-b-4 items-center pl-16 w-full h-12 bg-slate-800 hover:bg-[#122c66] hover:text-white"
+                          onClick={() => {
                             handleEscolhaCategoria("sapo");
                           }}
                         >
-                          <h1
-                            style={{ fontSize: "20px" }}
-                          >
-                            Sapos
-                          </h1>
+                          <h1 style={{ fontSize: "20px" }}>Sapos</h1>
                         </button>
                       </li>
                     </ul>
@@ -262,19 +290,25 @@ export default function Page() {
               </li>
               <li className="mb-2">
                 <button
-                   className="flex pt-3 items-center text-2xl pl-8 w-full h-12 mt-2 hover:bg-gray-700 hover:text-white"onClick={() => {
+                  className="flex pt-3 items-center text-2xl pl-8 w-full h-12 mt-2 hover:bg-[#19284a] hover:text-white"
+                  onClick={() => {
                     handleEscolhaCategoria("museu");
                   }}
                 >
-                  <p
-                    
-                  >
-                    Museu
-                  </p>
+                  <p>Museu</p>
                 </button>
               </li>
             </ul>
+            <button
+                  className="flex items-center justify-center pt-3 text-2xl text-white w-full h-12 mt-2 hover:bg-[#19284a]  hover:text-white"
+                  onClick={() => {
+                    logout()
+                  }}
+                >
+                  <p>LogOut</p>
+                </button>
           </div>
+          
         </nav>
         <div
           className={`fixed h-full top-0 left-0 bg-black opacity-25 z-40 transition-opacity ${
