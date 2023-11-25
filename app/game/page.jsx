@@ -14,11 +14,13 @@ import {
 } from "../ranking/rankingFunctions";
 import { getAuth, signOut } from "firebase/auth";
 import { logout } from "../logout";
+import { userB } from "../../firebaseConnection";
 
 export default function Page() {
   const auth = getAuth();
 
   const [user, setUser] = useState(auth.currentUser);
+  const [userDetail, setUserDetail] = useState({});
 
   const router = useRouter();
 
@@ -256,6 +258,13 @@ export default function Page() {
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() => {
+    if(!userB){
+      router.push('/');
+    }
+  }, [userB]);
+  
 
   return (
     <>

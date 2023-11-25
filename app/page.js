@@ -1,12 +1,13 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../firebaseConnection';
-import { useState } from 'react';
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { auth, userB, setUserB } from '../firebaseConnection';
+import { useState, useEffect } from 'react';
+
 
 export default function Home() {
   const router = useRouter();
-  
+  const [userDetail, setUserDetail] = useState({});
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -19,10 +20,34 @@ export default function Home() {
     setSenha(e.target.value);
   }
 
+  useEffect(() => {
+    // Esta função verifica se o usuário está logado ou não no sistema e retorna true ou false
+    async function checkLogin() {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          //se tem usuário logado ele entra aqui
+          console.log(user);
+          setUserB(true);
+          setUserDetail({
+            uid: user.uid,
+            email: user.email,
+          });
+        } else {
+          // não possui usuário logado
+          setUserB(false);
+          setUserDetail({});
+        }
+      });
+    }
+
+    checkLogin();
+  }, []);
+
   function login(){
     signInWithEmailAndPassword(auth, email, senha)
     .then((userCredential) => {
       const user = userCredential.user;
+      setUserB(true);
       router.push('\game');
     })
     .catch((error) => {
@@ -46,6 +71,5 @@ export default function Home() {
     </main>
   )
 }
-
 
 
