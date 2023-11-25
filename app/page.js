@@ -40,8 +40,8 @@ export default function Home() {
         <div className="w-full text-start m-2">Senha</div>
         <input className="w-full p-2 h-10 rounded-md flex flex-column justify-center rounded- text-black pass" onChange={handleSenhaLogin}></input>
         <button className="w-32 flex flex-column justify-center self-end">Esqueci a senha</button>
-        <button className=" botaoLogin  bg-laranja"  onClick={()=>{login()}}>Entrar</button>
-        <button className=" botaoLogin  bg-ciano" onClick={()=>{router.push("/cadastro")}} onKeyDown={()=>{router.push("/game")}}>Cadastrar</button>
+        <button className=" botaoLogin  bg-[#FC6B04]"  onClick={()=>{login()}}>Entrar</button>
+        <button className=" botaoLogin  bg-[#03cec4]" onClick={()=>{router.push("/cadastro")}} onKeyDown={()=>{router.push("/game")}}>Cadastrar</button>
       </div>
     </main>
   )

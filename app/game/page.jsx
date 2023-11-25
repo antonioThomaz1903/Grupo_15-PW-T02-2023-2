@@ -37,21 +37,6 @@ export default function Page() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const urls = [
-    ["cachorro", "https://dog.ceo/api/breeds/image/random", "message"],
-    ["gato", "https://api.thecatapi.com/v1/images/search", "url"],
-    ["raposa", "https://randomfox.ca/floof/", "image"],
-    [
-      "sapo",
-      "http://allaboutfrogs.org/funstuff/random/",
-      "+ algum numero de 1 - 54 com 4 digitos . jpg",
-    ],
-    [
-      "museu",
-      "https://collectionapi.metmuseum.org/public/collection/v1/objects/",
-      "algum número de 0 - 904997 enquanto primaryImage !=  string vazia",
-    ],
-  ];
 
   // Função para lidar com a escolha da categoria
   const handleEscolhaCategoria = (categoria) => {
@@ -69,6 +54,9 @@ export default function Page() {
     if (categoriaInicial) {
       setCategoriaEscolhida(categoriaInicial); // Obtém a categoria do cookie
       console.log(categoriaEscolhida);
+    }
+    else{
+      setCategoriaEscolhida("aleatorio");
     }
 
     var u_ere_eles = [];

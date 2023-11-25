@@ -54,7 +54,7 @@ export default function Page() {
           <textarea className="w-full rounded-sm text-black"></textarea>
 
           <br></br>
-          <button className="w-full h-12 rounded-md bg-laranja mt-10" onClick={()=>{cadastrar()}}>
+          <button className="w-full h-12 rounded-md bg-[#FC6B04] mt-10 hover:scale-110 duration-500 border-2 border-white" onClick={()=>{cadastrar()}}>
             CADASTRAR
           </button>
           <br></br>
