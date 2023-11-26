@@ -1,22 +1,22 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth, userB, setUserB } from '../firebaseConnection';
-import { useState, useEffect } from 'react';
-
+import { auth, userB, setUserB } from "../firebaseConnection";
+import { useState, useEffect } from "react";
+import { setCookie } from "nookies";
 
 export default function Home() {
   const router = useRouter();
   const [userDetail, setUserDetail] = useState({});
 
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
-  function handleEmailLogin(e){
+  function handleEmailLogin(e) {
     setEmail(e.target.value);
   }
 
-  function handleSenhaLogin(e){
+  function handleSenhaLogin(e) {
     setSenha(e.target.value);
   }
 
@@ -43,33 +43,60 @@ export default function Home() {
     checkLogin();
   }, []);
 
-  function login(){
+  function login() {
     signInWithEmailAndPassword(auth, email, senha)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      setUserB(true);
-      router.push('\game');
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorMessage);
-    });
+      .then((userCredential) => {
+        setCookie(null, "usuario", userCredential.user, {
+          maxAge: 4 * 60 * 60,
+          path: "/",
+        });
+        const user = userCredential.user;
+        setUserB(true);
+        router.push("game");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
   }
 
   return (
-    <main className='container w-screen h-screen flex flex-column justify-center items-center algn-center'>
+    <main className="container w-screen h-screen flex flex-column justify-center items-center algn-center">
       <div className="w-3/6 flex flex-column items-center scale-125">
         <div className="w-full text-start m-2">Login</div>
-        <input className="w-full pl-2 h-10 rounded-md flex flex-column justify-center text-black" onChange={handleEmailLogin}></input>
+        <input
+          className="w-full pl-2 h-10 rounded-md flex flex-column justify-center text-black"
+          onChange={handleEmailLogin}
+        ></input>
         <div className="w-full text-start m-2">Senha</div>
-        <input className="w-full p-2 h-10 rounded-md flex flex-column justify-center rounded- text-black pass" onChange={handleSenhaLogin}></input>
-        <button className="w-32 flex flex-column justify-center self-end">Esqueci a senha</button>
-        <button className=" botaoLogin  bg-[#FC6B04]"  onClick={()=>{login()}}>Entrar</button>
-        <button className=" botaoLogin  bg-[#03cec4]" onClick={()=>{router.push("/cadastro")}} onKeyDown={()=>{router.push("/game")}}>Cadastrar</button>
+        <input
+          className="w-full p-2 h-10 rounded-md flex flex-column justify-center rounded- text-black pass"
+          onChange={handleSenhaLogin}
+        ></input>
+        <button className="w-32 flex flex-column justify-center self-end">
+          Esqueci a senha
+        </button>
+        <button
+          className=" botaoLogin  bg-[#FC6B04]"
+          onClick={() => {
+            login();
+          }}
+        >
+          Entrar
+        </button>
+        <button
+          className=" botaoLogin  bg-[#03cec4]"
+          onClick={() => {
+            router.push("/cadastro");
+          }}
+          onKeyDown={() => {
+            router.push("/game");
+          }}
+        >
+          Cadastrar
+        </button>
       </div>
     </main>
-  )
+  );
 }
-
-
