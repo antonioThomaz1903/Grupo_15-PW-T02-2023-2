@@ -860,7 +860,7 @@ export default function Page() {
                 onClick={() => {
                   logout();
                   destroyCookie(undefined, 'usuario');
-                  setTimeout(()=>{router.push("/");},500)
+                  setTimeout(()=>{router.push("/");},5000)
                   
                 }}
               >
