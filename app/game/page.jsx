@@ -495,8 +495,10 @@ export default function Page() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
+              className="text-6xl"
             >
-              {titulo}
+              <p>{titulo}</p>
+              
             </h1>
           </div>
           <div
