@@ -1,20 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import getFromAPI from "../game/getFromAPI";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import {
-  addImagem,
-  getImagens,
-  getImagensByClickCount,
-  incrementCliquesByUrl,
+  getImagensByClickCount
 } from "./rankingFunctions";
 import { logout } from "../logout";
 
 export default function Page() {
   const router = useRouter();
-
-  const [imageURLs, setImageURLs] = useState([]);
 
   const [categoriaEscolhida, setCategoriaEscolhida] = useState("");
 

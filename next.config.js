@@ -7,7 +7,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    domains: ['cdn2.thecatapi.com'], // Adicione o host externo aqui
+    domains: ['cdn2.thecatapi.com'], 
     
   },
 }

@@ -11,6 +11,7 @@ export function logout(){
         .then(() => {
             console.log("Logout realizado com sucesso");
             setUserB(false);
+            destroyCookie(undefined, "usuario");
         })
         .catch((error) => {
             console.log("Erro ao realizar logout: " + error);

@@ -1,6 +1,5 @@
 "use client";
 
-import Foto from "./foto";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import museuIds from "./museuIds";
@@ -12,9 +11,7 @@ import {
   getImagemByUrl,
   incrementCliquesByUrl,
 } from "../ranking/rankingFunctions";
-import { getAuth, signOut } from "firebase/auth";
 import { logout } from "../logout";
-import { userB } from "../../firebaseConnection";
 
 export default function Page() {
   const router = useRouter();
@@ -863,7 +860,7 @@ export default function Page() {
                 onClick={() => {
                   logout();
                   destroyCookie(undefined, "usuario");
-                  router.push("#");
+                  router.push("/");
                 }}
               >
                 <p>LogOut</p>

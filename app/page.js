@@ -1,10 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth, userB, setUserB } from "../firebaseConnection";
+import { auth, setUserB } from "../firebaseConnection";
 import { useState, useEffect } from "react";
 import { setCookie } from "nookies";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 
 export default function Home() {
   const router = useRouter();
