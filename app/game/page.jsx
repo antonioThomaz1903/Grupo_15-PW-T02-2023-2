@@ -857,9 +857,9 @@ export default function Page() {
               </ul>
               <button
                 className="flex items-center justify-center pt-3 text-2xl text-white w-full h-12 mt-2 hover:bg-[#19284a]  hover:text-white"
-                onClick={() => {
+                onClick={async () => {
                   logout();
-                  destroyCookie(undefined, "usuario");
+                  await destroyCookie(undefined, 'usuario');
                   router.push("/");
                 }}
               >
