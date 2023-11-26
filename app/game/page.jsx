@@ -405,11 +405,6 @@ export default function Page() {
     setSidebarOpen(!isSidebarOpen);
   };
 
-  // useEffect(() => {
-  //   if (!userB) {
-  //     router.push("/");
-  //   }
-  // }, [userB]);
 
   if (logado) {
     return (

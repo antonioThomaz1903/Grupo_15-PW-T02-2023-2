@@ -24,10 +24,5 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
-var userB = false;
 
-function setUserB(param){
-  userB = param;
-}
-
-export {app, db, auth, userB, setUserB};
+export {app, db, auth};

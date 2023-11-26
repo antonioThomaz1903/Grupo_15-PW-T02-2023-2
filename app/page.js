@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth, setUserB } from "../firebaseConnection";
+import { auth } from "../firebaseConnection";
 import { useState, useEffect } from "react";
 import { setCookie } from "nookies";
 import {  toast } from "react-toastify";
@@ -22,20 +22,17 @@ export default function Home() {
   }
 
   useEffect(() => {
-    // Esta função verifica se o usuário está logado ou não no sistema e retorna true ou false
     async function checkLogin() {
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          //se tem usuário logado ele entra aqui
+
           console.log(user);
-          setUserB(true);
           setUserDetail({
             uid: user.uid,
             email: user.email,
           });
         } else {
-          // não possui usuário logado
-          setUserB(false);
+
           setUserDetail({});
         }
       });
@@ -54,7 +51,6 @@ export default function Home() {
       });
   
       const user = userCredential.user;
-      setUserB(true);
       router.push("game");
   
       toast.success("Login realizado com sucesso!", {

@@ -1,6 +1,5 @@
 import { auth, userB } from '../firebaseConnection'
 import { signOut } from 'firebase/auth';
-import { setUserB } from '../firebaseConnection';
 
 export function logout(){
     const user = auth.currentUser;
@@ -9,7 +8,6 @@ export function logout(){
         signOut(auth)
         .then(() => {
             console.log("Logout realizado com sucesso");
-            setUserB(false);
             
         })
         .catch((error) => {

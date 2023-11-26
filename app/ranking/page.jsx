@@ -350,7 +350,6 @@ export default function Page() {
                 logout();
                 document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 setTimeout(()=>{router.push("/");},500)
-                
               }}
             >
               <p>LogOut</p>
