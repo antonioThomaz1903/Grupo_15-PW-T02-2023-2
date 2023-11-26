@@ -25,7 +25,7 @@ async function addImagem(url, categoria) {
             // A imagem não existe, então podemos adicioná-la
             await addDoc(collection(db, "imagem"), {
                 url: url,
-                cliques: 1,
+                cliques: 0,
                 categoria: categoria
             });
             console.log("Imagem adicionada no banco");

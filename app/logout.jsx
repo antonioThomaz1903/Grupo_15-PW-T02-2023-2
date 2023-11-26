@@ -1,6 +1,7 @@
 import { auth, userB } from '../firebaseConnection'
 import { signOut } from 'firebase/auth';
 import { setUserB } from '../firebaseConnection';
+import { destroyCookie } from "nookies";
 
 export function logout(){
     const user = auth.currentUser;
