@@ -496,7 +496,7 @@ export default function Page() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              <b>{titulo}</b>
+              {titulo}
             </h1>
           </div>
           <div
