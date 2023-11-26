@@ -857,10 +857,11 @@ export default function Page() {
               </ul>
               <button
                 className="flex items-center justify-center pt-3 text-2xl text-white w-full h-12 mt-2 hover:bg-[#19284a]  hover:text-white"
-                onClick={async () => {
+                onClick={() => {
                   logout();
-                  await destroyCookie(undefined, 'usuario');
-                  router.push("/");
+                  destroyCookie(undefined, 'usuario');
+                  setTimeout(()=>{router.push("/");},500)
+                  
                 }}
               >
                 <p>LogOut</p>
