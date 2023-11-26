@@ -28,7 +28,7 @@ export default function Page() {
 
   const [titulo, settitulo] = useState("");
 
-  const [categoriaEscolhida, setCategoriaEscolhida] = useState("");
+  const [categoriaEscolhida, setCategoriaEscolhida] = useState("aleatorio");
 
   const [porcentagem, setPorcentagem] = useState(50);
 
