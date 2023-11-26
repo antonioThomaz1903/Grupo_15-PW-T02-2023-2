@@ -59,7 +59,13 @@ export default function Page() {
     setSidebarOpen(!isSidebarOpen);
   };
 
-  if (logado) {
+
+  useEffect(() => {
+    if (!logado) {
+      router.push("/");
+    }
+  }, [logado]);
+
     return (
       <div>
         <button
@@ -364,9 +370,5 @@ export default function Page() {
         ></div>
       </div>
     );
-  } else {
-    router.push("/");
-  }
 
-  return null;
 }
