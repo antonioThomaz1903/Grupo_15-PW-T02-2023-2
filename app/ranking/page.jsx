@@ -1,5 +1,4 @@
 "use client";
-import Sidebar from "../game/Sidebar";
 import { useState, useEffect } from "react";
 import getFromAPI from "../game/getFromAPI";
 import { useRouter } from "next/navigation";
