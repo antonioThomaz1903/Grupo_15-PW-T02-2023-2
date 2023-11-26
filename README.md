@@ -14,9 +14,20 @@ Este projeto é uma aplicação web desenvolvida em Next.js, utilizando Tailwind
 
 Antes de começar, certifique-se de ter instalado em sua máquina:
 
-- [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/)
-
+- [Node.js]
+- [npm]
+- [firebase]
+- [tailwind]
+- [Axios]
+- [encoding]
+- [react-toastify]
+- [nookies]
+- [yarn]
+- [next]
+- [bootstrap]
+- [react]
+- [cors]
+  
 ## Instalação
 
 1. Clone este repositório: `git clone https://github.com/seu-usuario/Grupo_15-PW-T02-2023-2
