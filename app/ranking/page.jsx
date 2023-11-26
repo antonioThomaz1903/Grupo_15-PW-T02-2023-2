@@ -348,8 +348,9 @@ export default function Page() {
               className="flex items-center justify-center pt-3 text-2xl text-white w-full h-12 mt-2 hover:bg-[#19284a]  hover:text-white"
               onClick={() => {
                 logout();
-                destroyCookie(undefined, 'usuario');
+                document.cookie = "usuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 setTimeout(()=>{router.push("/");},500)
+                
               }}
             >
               <p>LogOut</p>
