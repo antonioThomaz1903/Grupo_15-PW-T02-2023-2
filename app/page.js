@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth, userB, setUserB } from "../firebaseConnection";
 import { useState, useEffect } from "react";
 import { setCookie } from "nookies";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
   const router = useRouter();
@@ -43,22 +44,46 @@ export default function Home() {
     checkLogin();
   }, []);
 
-  function login() {
-    signInWithEmailAndPassword(auth, email, senha)
-      .then((userCredential) => {
-        setCookie(null, "usuario", userCredential.user, {
-          maxAge: 4 * 60 * 60,
-          path: "/",
-        });
-        const user = userCredential.user;
-        setUserB(true);
-        router.push("game");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
+  async function login() {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+  
+      setCookie(null, "usuario", userCredential.user, {
+        maxAge: 4 * 60 * 60,
+        path: "/",
       });
+  
+      const user = userCredential.user;
+      setUserB(true);
+      router.push("game");
+  
+      toast.success("Login realizado com sucesso!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      let message;
+  
+      switch (errorCode) {
+        case "auth/invalid-login-credentials":
+          message = "Informações incorretas!";
+          break;
+          case "auth/missing-password":
+            message = "Senha não informada!";
+            break;
+        default:
+          message = `Erro ao validar usuário: ${errorMessage}`;
+      }
+  
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+      });
+    }
   }
 
   return (
@@ -73,6 +98,7 @@ export default function Home() {
         <input
           className="w-full p-2 h-10 rounded-md flex flex-column justify-center rounded- text-black pass"
           onChange={handleSenhaLogin}
+          type="password"
         ></input>
         <button className="w-32 flex flex-column justify-center self-end">
           Esqueci a senha

@@ -30,7 +30,7 @@ export default function Page() {
 
   const [categoriaEscolhida, setCategoriaEscolhida] = useState("");
 
-  const [porcentagem, setPorcentagem] = useState("");
+  const [porcentagem, setPorcentagem] = useState(50);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -524,30 +524,42 @@ export default function Page() {
                   alt="imagem aleatória"
                   sizes="100vw"
                   className="foto gradient-border-laranja"
-                  onClick={() => {
+                  onClick={async () => {
                     if (!clicou) {
                       console.log(url1);
-                      addImagem(url1.toString(), categoriaEscolhida);
-                      addImagem(url2.toString(), categoriaEscolhida);
+                      await addImagem(url1.toString(), categoriaEscolhida);
+                      await addImagem(url2.toString(), categoriaEscolhida);
 
                       setClicou(true);
 
                       setTimeout(async () => {
-                      await incrementCliquesByUrl(url1);
+                        await incrementCliquesByUrl(url1);
                       }, 500);
 
                       setTimeout(async () => {
                         const dataUrl1 = await getImagemByUrl(url1);
                         const dataUrl2 = await getImagemByUrl(url2);
 
-                        const cliques1 = parseInt(dataUrl1!=null? dataUrl1.cliques : 0);
-                        const cliques2 = parseInt(dataUrl2!=null? dataUrl2.cliques : 0);
+                        var cliques1 = parseInt(
+                          dataUrl1 != null ? dataUrl1.cliques : 0
+                        );
+                        var cliques2 = parseInt(
+                          dataUrl2 != null ? dataUrl2.cliques : 0
+                        );
+                        if (cliques1 < 1) cliques1 = 1;
                         setPorcentagem(
-                          (cliques1 * 100) / (cliques1 == 0? 1 : cliques1 + cliques2==0? 1 : cliques2)
+                          (cliques1 * 100) / (cliques1 + cliques2)
                         );
 
                         console.log(
-                          (cliques1 * 100) / (cliques1==0? 1 : cliques1 + cliques2==0? 1 : cliques2) + "%"
+                          cliques1 +
+                            "/" +
+                            cliques1 +
+                            cliques2 +
+                            "=" +
+                            (cliques1 * 100) /
+                              (cliques1 == 0 ? 1 : cliques1 + cliques2) +
+                            "% = 1"
                         );
                       }, 500);
                       setTimeout(() => {
@@ -585,13 +597,20 @@ export default function Page() {
                       setTimeout(async () => {
                         const dataUrl1 = await getImagemByUrl(url1);
                         const dataUrl2 = await getImagemByUrl(url2);
-                        const cliques1 = parseInt(dataUrl1!=null? dataUrl1.cliques : 0);
-                        const cliques2 = parseInt(dataUrl2!=null? dataUrl2.cliques : 0);
+                        const cliques1 = parseInt(
+                          dataUrl1 != null ? dataUrl1.cliques : 0
+                        );
+                        const cliques2 = parseInt(
+                          dataUrl2 != null ? dataUrl2.cliques : 0
+                        );
                         setPorcentagem(
-                          (cliques1 * 100) / (cliques1==0? 1 : cliques1 + cliques2==0? 1 : cliques2)
+                          (cliques1 * 100) /
+                            (cliques1 + cliques2 == 0 ? 1 : cliques2)
                         );
                         console.log(
-                          (cliques2 * 100) / (cliques1==0? 1 : cliques1 + cliques2==0? 1 : cliques2) + "%"
+                          (cliques1 * 100) /
+                            (cliques1 + cliques2 == 0 ? 1 : cliques2) +
+                            "% = 2"
                         );
                       }, 500);
                       setTimeout(() => {
@@ -612,37 +631,37 @@ export default function Page() {
               justifyContent: "center",
               alignItems: "center",
             }}
+            className="flex flex-row"
           >
+            <p className={`text-white font-bold text-xl p-3 ${clicou ? "flex" : "hidden"}`}>{`${
+              Math.round(porcentagem * 100) / 100
+            }%`}</p>
             <div
               style={{
-                backgroundColor: "#FC6B04",
-                width: `${porcentagem}%`,
-                transition: "width 0.5s, opacity 0.5s",
-                opacity: clicou ? 1 : 0, // Ajuste conforme necessário
-              }}
-              className={`h-16 border-2 jusify-start p-3 ${
-                clicou ? "flex" : "hidden"
-              } right-0`}
-            >
-              <p className="text-white font-bold text-xl">{`${
-                Math.round(porcentagem * 100) / 100
-              }%`}</p>
-            </div>
-            <div
-              style={{
-                backgroundColor: clicou ? "#00CABF" : "#000000",
-                width: `${100 - porcentagem}%`,
+                backgroundColor: clicou ? "#FC6B04" : "#000000",
+                width: `${clicou ? porcentagem : 0}%`,
                 transition: "width 0.5s, opacity 0.5s",
                 opacity: clicou ? 1 : 0, // Ajuste conforme necessário
               }}
               className={`h-16 border-2 text-end p-4${
                 clicou ? "flex" : "hidden"
               } right-0`}
-            >
-              <p className="text-white font-bold text-xl p-3">{`${
-                Math.round((100 - porcentagem) * 100) / 100
-              }%`}</p>
-            </div>
+            ></div>
+
+            <div
+              style={{
+                backgroundColor: clicou ? "#00CABF" : "#000000",
+                width: `${clicou ? 100 - porcentagem : 0}%`,
+                transition: "width 0.5s, opacity 0.5s",
+                opacity: clicou ? 1 : 0, // Ajuste conforme necessário
+              }}
+              className={`h-16 border-2 text-end p-4${
+                clicou ? "flex" : "hidden"
+              } right-0`}
+            ></div>
+            <p className={`text-white font-bold text-xl p-3 ${clicou ? "flex" : "hidden"}` }>{`${
+              Math.round((100 - porcentagem) * 100) / 100
+            }% `}</p>
           </div>
 
           <nav
