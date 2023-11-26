@@ -861,7 +861,7 @@ export default function Page() {
                 onClick={() => {
                   logout();
                   destroyCookie(undefined, "usuario");
-                  router.push("/");
+                  router.push("#");
                 }}
               >
                 <p>LogOut</p>
