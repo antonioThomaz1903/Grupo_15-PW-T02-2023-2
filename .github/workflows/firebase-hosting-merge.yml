@@ -7,19 +7,19 @@ name: Deploy to Firebase Hosting on merge
     branches:
       - main
 jobs:
-  build_and_deploy:
+  build:
+    name: Build and Deploy to Firebase
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repo
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: yarn
       - name: Build
         run: yarn build
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
-      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_THISORTHAT_PW_G15 }}'
-          channelId: live
-          projectId: thisorthat-pw-g15
+          args: deploy --only functions,hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
